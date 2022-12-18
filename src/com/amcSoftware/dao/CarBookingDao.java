@@ -1,7 +1,6 @@
 package com.amcSoftware.dao;
 
 
-import com.amcSoftware.Car;
 import com.amcSoftware.CarBooking;
 
 public class CarBookingDao {

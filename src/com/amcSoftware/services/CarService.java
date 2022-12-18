@@ -6,7 +6,7 @@ import com.amcSoftware.CarBooking;
 import com.amcSoftware.User;
 import com.amcSoftware.dao.CarBookingDao;
 import com.amcSoftware.dao.CarDao;
-import com.amcSoftware.dao.UserDao;
+import com.amcSoftware.dao.UsersDao;
 
 import java.util.UUID;
 
@@ -29,10 +29,11 @@ public class CarService {
 
     private User locateUser(UUID userId) {
         User user = null;
+        User[] users = new UsersDao().getUsers();
         try {
-            for(int i = 0; i < UserDao.getUserDao().length; i++) {
-                if(UserDao.getUserDao()[i].getId().equals(userId)) {
-                    user = UserDao.getUserDao()[i];
+            for(int i = 0; i < users.length; i++) {
+                if(users[i].getId().equals(userId)) {
+                    user = users[i];
                 }
             }
         } catch (Exception e) {
@@ -104,8 +105,9 @@ public class CarService {
 
     public void getUsers() {
         try {
-            for(int i = 0; i < UserDao.getUserDao().length; i++) {
-                System.out.println(UserDao.getUserDao()[i]);
+            User[] users = new UsersDao().getUsers();
+            for(int i = 0; i < users.length; i++) {
+                System.out.println(users[i]);
             }
         }catch (Exception e) {
             System.out.println(e.getMessage());

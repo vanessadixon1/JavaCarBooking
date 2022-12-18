@@ -4,7 +4,6 @@ import com.amcSoftware.Brand;
 import com.amcSoftware.Car;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 
 public class CarDao {
     private static Car[] cars;

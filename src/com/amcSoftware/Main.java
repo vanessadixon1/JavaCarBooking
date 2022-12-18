@@ -1,7 +1,9 @@
 package com.amcSoftware;
 
+import com.amcSoftware.services.UsersService;
 import com.amcSoftware.services.CarService;
 
+import java.io.File;
 import java.math.BigInteger;
 import java.util.Scanner;
 import java.util.UUID;
@@ -9,6 +11,12 @@ import java.util.UUID;
 public class Main {
 
     public static void main(String[] args) {
+        UsersService users = new UsersService();
+        String pathname = "src/com/amcSoftware/users.csv";
+        File file = users.createFile(pathname);
+        users.writeToUsersFile(file);
+        users.readFileAddToDao(file);
+
         CarService carService = new CarService();
         Scanner scanner = new Scanner(System.in);
 
