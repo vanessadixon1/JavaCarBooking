@@ -7,7 +7,7 @@ public class UsersDao implements IUsers {
 
     private static User[] users;
 
-     static {
+    static {
        users = new UsersService().getUsers();
     }
 

@@ -1,5 +1,8 @@
 package com.amcSoftware;
 
+import com.amcSoftware.dao.CarBookingDao;
+import com.amcSoftware.dao.CarDao;
+import com.amcSoftware.dao.UsersDao;
 import com.amcSoftware.services.UsersService;
 import com.amcSoftware.services.CarService;
 
@@ -17,7 +20,11 @@ public class Main {
         users.writeToUsersFile(file);
         users.readFileAddToDao(file);
 
-        CarService carService = new CarService();
+        UsersDao usersDao = new UsersDao();
+        CarDao carDao = new CarDao();
+        CarBookingDao carBookingDao = new CarBookingDao();
+        CarService carService = new CarService(usersDao,carDao,carBookingDao);
+
         Scanner scanner = new Scanner(System.in);
 
         boolean isExit = false;

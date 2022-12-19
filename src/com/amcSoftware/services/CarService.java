@@ -10,15 +10,26 @@ import com.amcSoftware.dao.UsersDao;
 
 import java.util.UUID;
 
-
+//@Bean or Component = gives us an instance of this class
 public class CarService {
+
+    private UsersDao usersDao;
+    private CarDao carDao;
+    private CarBookingDao carBookingDao;
+
+    //Autowired = means go find an instance for me and inject it for me so I can assign it to the field to be used throughout the code
+    public CarService(UsersDao usersDao, CarDao carDao, CarBookingDao carBookingDao) {
+        this.usersDao = usersDao;
+        this.carDao = carDao;
+        this.carBookingDao = carBookingDao;
+    }
 
     private Car locateCar(String regNumber) {
         Car car = null;
         try {
-            for(int i = 0; i < CarDao.getCars().length; i++) {
-                if(CarDao.getCars()[i].getRegNumber().equals(regNumber)) {
-                    car = CarDao.getCars()[i];
+            for(int i = 0; i < carDao.getCars().length; i++) {
+                if(carDao.getCars()[i].getRegNumber().equals(regNumber)) {
+                    car = carDao.getCars()[i];
                 }
             }
         } catch (Exception e) {
@@ -29,7 +40,8 @@ public class CarService {
 
     private User locateUser(UUID userId) {
         User user = null;
-        User[] users = new UsersDao().getUsers();
+
+        User[] users = this.usersDao.getUsers();
         try {
             for(int i = 0; i < users.length; i++) {
                 if(users[i].getId().equals(userId)) {
@@ -48,11 +60,11 @@ public class CarService {
             User user = locateUser(userId);
             UUID bookingRef = UUID.randomUUID();
             CarBooking carBooking = new CarBooking(bookingRef, user, car, false);
-            if(CarBookingDao.getCarBookings()[0] == null) {
-                CarBookingDao.getCarBookings()[0] = carBooking;
+            if(carBookingDao.getCarBookings()[0] == null) {
+                carBookingDao.getCarBookings()[0] = carBooking;
                 System.out.println("🎉 Successfully booked car with reg number " + car.getRegNumber() + " for user " +
                         car + "\nBooking ref: " + bookingRef);
-            } else {
+            }else {
                 System.out.println("There is already a booking in place. Only 1 booking is allowed");
             }
         }catch (Exception e) {
@@ -64,10 +76,10 @@ public class CarService {
         try {
             int availableCars = 0;
 
-            for(int i = 0; i < CarDao.getCars().length; i++) {
-                if((CarBookingDao.getCarBookings()[0] == null) ||
-                        (CarBookingDao.getCarBookings()[0].getCar() != CarDao.getCars()[i])) {
-                    System.out.println(CarDao.getCars()[i]);
+            for(int i = 0; i < carDao.getCars().length; i++) {
+                if((carBookingDao.getCarBookings()[0] == null) ||
+                        (carBookingDao.getCarBookings()[0].getCar() != carDao.getCars()[i])) {
+                    System.out.println(carDao.getCars()[i]);
                     availableCars++;
                 }
             }
@@ -84,13 +96,13 @@ public class CarService {
         try {
             int electricCars = 0;
 
-            for(int i = 0; i < CarDao.getCars().length; i++) {
-                if((CarBookingDao.getCarBookings()[0] == null) && (CarDao.getCars()[i].isElectric()) ) {
-                        System.out.println(CarDao.getCars()[i]);
+            for(int i = 0; i < carDao.getCars().length; i++) {
+                if((carBookingDao.getCarBookings()[0] == null) && (carDao.getCars()[i].isElectric()) ) {
+                        System.out.println(carDao.getCars()[i]);
                         electricCars++;
-                }else if((CarDao.getCars()[i].isElectric()) &&
-                            (CarDao.getCars()[i] != CarBookingDao.getCarBookings()[0].getCar()) ) {
-                    System.out.println(CarDao.getCars()[i]);
+                }else if((carDao.getCars()[i].isElectric()) &&
+                            (carDao.getCars()[i] != carBookingDao.getCarBookings()[0].getCar()) ) {
+                    System.out.println(carDao.getCars()[i]);
                     electricCars++;
                 }
             }
@@ -105,7 +117,7 @@ public class CarService {
 
     public void getUsers() {
         try {
-            User[] users = new UsersDao().getUsers();
+            User[] users = this.usersDao.getUsers();
             for(int i = 0; i < users.length; i++) {
                 System.out.println(users[i]);
             }
@@ -119,9 +131,9 @@ public class CarService {
         try {
             int booked = 0;
 
-            for(int i = 0; i < CarDao.getCars().length; i++) {
-                if((CarBookingDao.getCarBookings()[0] != null) && (CarDao.getCars()[i].getRegNumber() == CarBookingDao.getCarBookings()[0].getCar().getRegNumber())) {
-                    System.out.println(CarBookingDao.getCarBookings()[0]);
+            for(int i = 0; i < carDao.getCars().length; i++) {
+                if((carBookingDao.getCarBookings()[0] != null) && (carDao.getCars()[i].getRegNumber() == carBookingDao.getCarBookings()[0].getCar().getRegNumber())) {
+                    System.out.println(carBookingDao.getCarBookings()[0]);
                     booked++;
                 }
             }
@@ -138,10 +150,10 @@ public class CarService {
         User user = locateUser(userId);
         int count = 0;
         try {
-            for(int i = 0; i < CarBookingDao.getCarBookings().length; i++) {
-                if((CarBookingDao.getCarBookings()[i] != null) &&
-                        (CarBookingDao.getCarBookings()[i].getUsers().getId().equals(userId))) {
-                    System.out.println(CarBookingDao.getCarBookings()[i]);
+            for(int i = 0; i < carBookingDao.getCarBookings().length; i++) {
+                if((carBookingDao.getCarBookings()[i] != null) &&
+                        (carBookingDao.getCarBookings()[i].getUsers().getId().equals(userId))) {
+                    System.out.println(carBookingDao.getCarBookings()[i]);
                     count++;
                 }
             }

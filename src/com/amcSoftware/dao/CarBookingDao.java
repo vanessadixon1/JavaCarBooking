@@ -5,7 +5,7 @@ import com.amcSoftware.CarBooking;
 
 public class CarBookingDao {
     private static CarBooking[] carBookings;
-    private static int carsBooked = 1;
+    private static int carsBooked = 4;
 
     static {
         carBookings = new CarBooking[carsBooked];
