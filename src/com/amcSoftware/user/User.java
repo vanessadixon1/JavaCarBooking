@@ -1,4 +1,4 @@
-package com.amcSoftware;
+package com.amcSoftware.user;
 
 import java.util.UUID;
 

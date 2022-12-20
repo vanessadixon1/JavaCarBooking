@@ -1,12 +1,13 @@
-package com.amcSoftware.dao;
+package com.amcSoftware.car.dao;
 
-import com.amcSoftware.Brand;
-import com.amcSoftware.Car;
+
+import com.amcSoftware.car.Brand;
+import com.amcSoftware.car.Car;
 
 import java.math.BigDecimal;
 
 public class CarDao {
-    private static Car[] cars;
+    private static final Car[] cars;
 
     static {
         cars = new Car[] {

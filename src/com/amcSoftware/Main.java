@@ -1,10 +1,13 @@
 package com.amcSoftware;
 
-import com.amcSoftware.dao.CarBookingDao;
-import com.amcSoftware.dao.CarDao;
-import com.amcSoftware.dao.UsersDao;
-import com.amcSoftware.services.UsersService;
-import com.amcSoftware.services.CarService;
+import com.amcSoftware.car.services.CarService;
+import com.amcSoftware.car.services.LocateCar;
+import com.amcSoftware.car.dao.CarBookingDao;
+import com.amcSoftware.car.dao.CarDao;
+import com.amcSoftware.user.dao.UsersDao;
+import com.amcSoftware.utils.FileServices;
+import com.amcSoftware.user.services.LocateUser;
+import com.amcSoftware.user.services.UserService;
 
 import java.io.File;
 import java.math.BigInteger;
@@ -14,16 +17,20 @@ import java.util.UUID;
 public class Main {
 
     public static void main(String[] args) {
-        UsersService users = new UsersService();
-        String pathname = "src/com/amcSoftware/users.csv";
+        FileServices users = new FileServices();
+        String pathname = "src/com/amcSoftware/utils/users.csv";
         File file = users.createFile(pathname);
         users.writeToUsersFile(file);
         users.readFileAddToDao(file);
 
         UsersDao usersDao = new UsersDao();
-        CarDao carDao = new CarDao();
-        CarBookingDao carBookingDao = new CarBookingDao();
-        CarService carService = new CarService(usersDao,carDao,carBookingDao);
+
+        LocateUser locateUser = new LocateUser(usersDao);
+        LocateCar locateCar = new LocateCar();
+
+        CarService carService = new CarService(locateCar, locateUser);
+
+        UserService userService = new UserService(usersDao, locateUser);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -37,7 +44,7 @@ public class Main {
                     carService.getAvailableCars();
                     System.out.println("➡️ select car reg number");
                     String regNumber = scanner.nextLine();
-                    carService.getUsers();
+                    userService.getUsers();
                     System.out.println("➡️ select user id");
                     String userId = scanner.nextLine();
                     String s = userId.replace("-", "");
@@ -48,7 +55,7 @@ public class Main {
                     menu();
                     break;
                 case 2:
-                    carService.getUsers();
+                    userService.getUsers();
                     System.out.println("➡️ select user id");
                     String input = scanner.nextLine();
                     s = input.replace("-", "");
@@ -56,7 +63,7 @@ public class Main {
                             new BigInteger(s.substring(0,16), 16).longValue(),
                             new BigInteger(s.substring(16),16).longValue());
 
-                    carService.getUserBookedCars(uuid);
+                    userService.getUserBookedCars(uuid);
                     System.out.println("\n");
                     menu();
                     break;
@@ -76,7 +83,7 @@ public class Main {
                     menu();
                     break;
                 case 6:
-                    carService.getUsers();
+                    userService.getUsers();
                     System.out.println("\n");
                     menu();
                     break;

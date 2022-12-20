@@ -1,4 +1,6 @@
-package com.amcSoftware;
+package com.amcSoftware.car;
+
+import com.amcSoftware.user.User;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

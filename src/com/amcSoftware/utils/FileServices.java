@@ -1,13 +1,13 @@
-package com.amcSoftware.services;
+package com.amcSoftware.utils;
 
-import com.amcSoftware.User;
-import com.amcSoftware.dao.IUsers;
+import com.amcSoftware.user.User;
+import com.amcSoftware.user.interfaces.IUsers;
 
 import java.io.*;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class UsersService implements IUsers {
+public class FileServices implements IUsers {
 
     public String data =  """
             7e4b9220-a47a-45a7-a33b-7182ee0dc30e, Leila

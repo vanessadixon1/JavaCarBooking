@@ -1,7 +1,7 @@
-package com.amcSoftware.dao;
+package com.amcSoftware.car.dao;
 
 
-import com.amcSoftware.CarBooking;
+import com.amcSoftware.car.CarBooking;
 
 public class CarBookingDao {
     private static CarBooking[] carBookings;
