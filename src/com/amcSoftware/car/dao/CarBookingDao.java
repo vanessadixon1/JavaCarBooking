@@ -3,24 +3,18 @@ package com.amcSoftware.car.dao;
 
 import com.amcSoftware.car.CarBooking;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CarBookingDao {
-    private static CarBooking[] carBookings;
-    private static int carsBooked = 4;
+    private static List<CarBooking> carBookings;
 
     static {
-        carBookings = new CarBooking[carsBooked];
+        carBookings = new ArrayList<>();
     }
 
-    public static CarBooking[] getCarBookings() {
+    public static List<CarBooking> getCarBookings() {
         return carBookings;
-    }
-
-    public static int getCarsBooked() {
-        return carsBooked;
-    }
-
-    public static void setCarsBooked(int carsBooked) {
-        CarBookingDao.carsBooked = carsBooked;
     }
 }
 

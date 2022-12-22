@@ -4,6 +4,7 @@ import com.amcSoftware.user.User;
 import com.amcSoftware.user.dao.UsersDao;
 import com.amcSoftware.user.interfaces.ILocateUser;
 
+import java.util.List;
 import java.util.UUID;
 
 public class LocateUser implements ILocateUser {
@@ -18,11 +19,11 @@ public class LocateUser implements ILocateUser {
     public User getUser(UUID userId) {
         User user = null;
 
-        User[] users = this.usersDao.getUsers();
+        List<User> users = this.usersDao.getUsers();
         try {
-            for(int i = 0; i < users.length; i++) {
-                if(users[i].getId().equals(userId)) {
-                    user = users[i];
+            for(int i = 0; i < users.size(); i++) {
+                if(users.get(i).getId().equals(userId)) {
+                    user = users.get(i);
                 }
             }
         } catch (Exception e) {

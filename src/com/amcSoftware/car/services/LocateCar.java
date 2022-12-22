@@ -10,11 +10,9 @@ public class LocateCar implements ILocateCar {
     public Car getCar(String regNumber) {
        Car car = null;
         try {
-            for(int i = 0; i < CarDao.getCars().length; i++) {
-                if(CarDao.getCars()[i].getRegNumber().equals(regNumber)) {
-                    car = CarDao.getCars()[i];
-                } else {
-
+            for(int i = 0; i < CarDao.getCars().size(); i++) {
+                if(CarDao.getCars().get(i).getRegNumber().equals(regNumber)) {
+                    car = CarDao.getCars().get(i);
                 }
             }
         } catch (Exception e) {

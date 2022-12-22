@@ -4,6 +4,7 @@ import com.amcSoftware.user.User;
 import com.amcSoftware.user.interfaces.IUsers;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -16,7 +17,7 @@ public class FileServices implements IUsers {
             1fda7774-b948-42fa-ad35-7eb1a7248e35, Samira
             """;
 
-    private static User[] users = new User[4];
+    private static ArrayList<User> users = new ArrayList<>();
 
     public File createFile(String pathname){
         File file = null;
@@ -44,12 +45,10 @@ public class FileServices implements IUsers {
         try {
             Scanner scanner = new Scanner(pathname);
             while(scanner.hasNext()) {
-                for(int i = 0; i < users.length; i++) {
-                    String[] userInfo = scanner.nextLine().split(", ");
-                    UUID id = UUID.fromString(userInfo[0].trim());
-                    String name = userInfo[1].trim();
-                    users[i] = new User(id, name);
-                }
+                String[] userInfo = scanner.nextLine().split(", ");
+                UUID id = UUID.fromString(userInfo[0].trim());
+                String name = userInfo[1].trim();
+                users.add(new User(id, name));
             }
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
@@ -57,7 +56,7 @@ public class FileServices implements IUsers {
     }
 
     @Override
-    public User[] getUsers() {
+    public ArrayList<User> getUsers() {
         return users;
     }
 }

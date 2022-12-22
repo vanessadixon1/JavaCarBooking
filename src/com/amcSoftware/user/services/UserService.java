@@ -18,9 +18,8 @@ public class UserService {
 
     public void getUsers() {
         try {
-            User[] users = this.usersDao.getUsers();
-            for(int i = 0; i < users.length; i++) {
-                System.out.println(users[i]);
+            for (User user: this.usersDao.getUsers()) {
+                System.out.println(user);
             }
         }catch (Exception e) {
             System.out.println(e.getMessage());
@@ -31,10 +30,9 @@ public class UserService {
         User user = this.locateUser.getUser(userId);
         int count = 0;
         try {
-            for(int i = 0; i < CarBookingDao.getCarBookings().length; i++) {
-                if((CarBookingDao.getCarBookings()[i] != null) &&
-                        (CarBookingDao.getCarBookings()[i].getUsers().getId().equals(userId))) {
-                    System.out.println(CarBookingDao.getCarBookings()[i]);
+            for(int i = 0; i < CarBookingDao.getCarBookings().size(); i++) {
+                if((CarBookingDao.getCarBookings().get(i).getUsers().getId().equals(userId))) {
+                    System.out.println(CarBookingDao.getCarBookings().get(i));
                     count++;
                 }
             }
@@ -47,3 +45,7 @@ public class UserService {
 
     }
 }
+
+
+
+

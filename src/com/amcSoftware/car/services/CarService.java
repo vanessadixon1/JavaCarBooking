@@ -11,15 +11,12 @@ import java.util.UUID;
 
 public class CarService {
 
-
     private LocateCar locateCar;
     private LocateUser locateUser;
-
 
     public CarService(LocateCar locateCar,LocateUser locateUser ) {
         this.locateCar = locateCar;
         this.locateUser = locateUser;
-
     }
 
     public void bookCar(String regNumber, UUID userId) {
@@ -28,13 +25,10 @@ public class CarService {
             User user = this.locateUser.getUser(userId);
             UUID bookingRef = UUID.randomUUID();
             CarBooking carBooking = new CarBooking(bookingRef, user, car, false);
-            if(CarBookingDao.getCarBookings()[0] == null) {
-                CarBookingDao.getCarBookings()[0] = carBooking;
-                System.out.println("🎉 Successfully booked car with reg number " + car.getRegNumber() + " for user " +
-                        car + "\nBooking ref: " + bookingRef);
-            }else {
-                System.out.println("There is already a booking in place. Only 1 booking is allowed");
-            }
+            CarBookingDao.getCarBookings().add(carBooking);
+            System.out.println("🎉 Successfully booked car with reg number " + car.getRegNumber() + " for user " +
+                    car + "\nBooking ref: " + bookingRef);
+            CarDao.getCars().remove(carBooking.getCar());
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -42,16 +36,10 @@ public class CarService {
 
     public void getAllBookings() {
         try {
-            int booked = 0;
-
-            for(int i = 0; i < CarDao.getCars().length; i++) {
-                if((CarBookingDao.getCarBookings()[0] != null) && (CarDao.getCars()[i].getRegNumber() == CarBookingDao.getCarBookings()[0].getCar().getRegNumber())) {
-                    System.out.println(CarBookingDao.getCarBookings()[0]);
-                    booked++;
-                }
+            for(int i = 0; i < CarBookingDao.getCarBookings().size(); i++) {
+                System.out.println(CarBookingDao.getCarBookings().get(i));
             }
-
-            if(booked == 0) {
+            if(CarBookingDao.getCarBookings().size() == 0) {
                 System.out.println("No bookings available 😕");
             }
         } catch (Exception e) {
@@ -63,14 +51,10 @@ public class CarService {
         try {
             int availableCars = 0;
 
-            for(int i = 0; i < CarDao.getCars().length; i++) {
-                if((CarBookingDao.getCarBookings()[0] == null) ||
-                        (CarBookingDao.getCarBookings()[0].getCar() != CarDao.getCars()[i])) {
-                    System.out.println(CarDao.getCars()[i]);
-                    availableCars++;
-                }
+            for(int i = 0; i < CarDao.getCars().size(); i++) {
+                System.out.println(CarDao.getCars().get(i));
+                availableCars++;
             }
-
             if(availableCars == 0) {
                 System.out.println("❌ no cars are available for renting");
             }
@@ -83,17 +67,13 @@ public class CarService {
         try {
             int electricCars = 0;
 
-            for(int i = 0; i < CarDao.getCars().length; i++) {
-                if((CarBookingDao.getCarBookings()[0] == null) && (CarDao.getCars()[i].isElectric()) ) {
-                    System.out.println(CarDao.getCars()[i]);
-                    electricCars++;
-                }else if((CarDao.getCars()[i].isElectric()) &&
-                        (CarDao.getCars()[i] != CarBookingDao.getCarBookings()[0].getCar()) ) {
-                    System.out.println(CarDao.getCars()[i]);
+            for(int i = 0; i < CarDao.getCars().size(); i++) {
+                 if((CarDao.getCars().get(i).isElectric()) &&
+                        !(CarBookingDao.getCarBookings().contains(CarDao.getCars().get(i)))) {
+                    System.out.println(CarDao.getCars().get(i));
                     electricCars++;
                 }
             }
-
             if(electricCars == 0) {
                 System.out.println("❌ No electric cars available for renting");
             }

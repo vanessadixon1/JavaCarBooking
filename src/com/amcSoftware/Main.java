@@ -2,8 +2,6 @@ package com.amcSoftware;
 
 import com.amcSoftware.car.services.CarService;
 import com.amcSoftware.car.services.LocateCar;
-import com.amcSoftware.car.dao.CarBookingDao;
-import com.amcSoftware.car.dao.CarDao;
 import com.amcSoftware.user.dao.UsersDao;
 import com.amcSoftware.utils.FileServices;
 import com.amcSoftware.user.services.LocateUser;
