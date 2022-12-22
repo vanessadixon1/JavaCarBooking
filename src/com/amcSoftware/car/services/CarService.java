@@ -63,14 +63,12 @@ public class CarService {
 
     public void getAvailableCars() {
         try {
-            int availableCars = 0;
 
             for (Car car: carsWithNoBookings()) {
                 System.out.println(car);
-                availableCars++;
             }
 
-            if(availableCars == 0) {
+            if(carsWithNoBookings().size() == 0) {
                 System.out.println("❌ no cars are available for renting");
             }
         } catch (Exception e) {
@@ -78,7 +76,7 @@ public class CarService {
         }
     }
 
-    private List<Car> carsWithNoBookings() {
+    public List<Car> carsWithNoBookings() {
         List<Car> availableCars = new ArrayList<>();
         if(unavailableCars.size() == 0) {
             availableCars.addAll(CarDao.getCars());
@@ -96,13 +94,13 @@ public class CarService {
         try {
             int electricCars = 0;
 
-            for(int i = 0; i < CarDao.getCars().size(); i++) {
-                 if((CarDao.getCars().get(i).isElectric()) &&
-                        !(CarBookingDao.getCarBookings().contains(CarDao.getCars().get(i)))) {
-                    System.out.println(CarDao.getCars().get(i));
+            for (Car car : carsWithNoBookings()) {
+                if((car.isElectric())) {
+                    System.out.println(car);
                     electricCars++;
                 }
             }
+
             if(electricCars == 0) {
                 System.out.println("❌ No electric cars available for renting");
             }

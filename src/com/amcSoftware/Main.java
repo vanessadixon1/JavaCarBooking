@@ -40,6 +40,11 @@ public class Main {
             switch (value) {
                 case 1:
                     carService.getAvailableCars();
+                    if(carService.carsWithNoBookings().size() == 0) {
+                        menu();
+                        System.out.println();
+                        break;
+                    }
                     System.out.println("➡️ select car reg number");
                     String regNumber = scanner.nextLine();
                     userService.getUsers();
