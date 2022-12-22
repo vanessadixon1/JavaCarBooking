@@ -7,9 +7,14 @@ import com.amcSoftware.car.dao.CarDao;
 import com.amcSoftware.user.services.LocateUser;
 import com.amcSoftware.user.User;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class CarService {
+
+    private static List<Car> unavailableCars = new ArrayList<>();
+    private static List<User> bookedUsers = new ArrayList<>();
 
     private LocateCar locateCar;
     private LocateUser locateUser;
@@ -23,15 +28,24 @@ public class CarService {
         try {
             Car car = this.locateCar.getCar(regNumber);
             User user = this.locateUser.getUser(userId);
-            UUID bookingRef = UUID.randomUUID();
-            CarBooking carBooking = new CarBooking(bookingRef, user, car, false);
-            CarBookingDao.getCarBookings().add(carBooking);
-            System.out.println("🎉 Successfully booked car with reg number " + car.getRegNumber() + " for user " +
-                    car + "\nBooking ref: " + bookingRef);
-            CarDao.getCars().remove(car);
+            if(isBooked(user)) {
+                System.out.println("❌ This user already has an existing booking. Only one booking per user allowed!");
+            }else {
+                UUID bookingRef = UUID.randomUUID();
+                CarBooking carBooking = new CarBooking(bookingRef, user, car, false);
+                CarBookingDao.getCarBookings().add(carBooking);
+                System.out.println("🎉 Successfully booked car with reg number " + car.getRegNumber() + " for user " +
+                        car + "\nBooking ref: " + bookingRef);
+                bookedUsers.add(user);
+                unavailableCars.add(car);
+            }
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private boolean isBooked(User user) {
+        return bookedUsers.contains(user);
     }
 
     public void getAllBookings() {
@@ -50,10 +64,12 @@ public class CarService {
     public void getAvailableCars() {
         try {
             int availableCars = 0;
-            for(int i = 0; i < CarDao.getCars().size(); i++) {
-                System.out.println(CarDao.getCars().get(i));
+
+            for (Car car: carsWithNoBookings()) {
+                System.out.println(car);
                 availableCars++;
             }
+
             if(availableCars == 0) {
                 System.out.println("❌ no cars are available for renting");
             }
@@ -62,6 +78,19 @@ public class CarService {
         }
     }
 
+    private List<Car> carsWithNoBookings() {
+        List<Car> availableCars = new ArrayList<>();
+        if(unavailableCars.size() == 0) {
+            availableCars.addAll(CarDao.getCars());
+        } else {
+            for (int i = 0; i < CarDao.getCars().size(); i++) {
+                if(!unavailableCars.contains(CarDao.getCars().get(i))) {
+                    availableCars.add(CarDao.getCars().get(i));
+                }
+            }
+        }
+        return availableCars;
+    }
 
     public void getAvailableElectricCars() {
         try {
