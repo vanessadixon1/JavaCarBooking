@@ -1,6 +1,6 @@
 package com.amcSoftware.user.services;
 
-import com.amcSoftware.car.dao.CarBookingDao;
+import com.amcSoftware.carBooking.CarBookingDao;
 import com.amcSoftware.user.dao.UsersDao;
 import com.amcSoftware.user.User;
 

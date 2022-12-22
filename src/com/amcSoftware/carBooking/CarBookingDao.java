@@ -1,7 +1,5 @@
-package com.amcSoftware.car.dao;
+package com.amcSoftware.carBooking;
 
-
-import com.amcSoftware.car.CarBooking;
 
 import java.util.ArrayList;
 import java.util.List;

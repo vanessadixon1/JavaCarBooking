@@ -1,8 +1,8 @@
 package com.amcSoftware.car.services;
 
 import com.amcSoftware.car.Car;
-import com.amcSoftware.car.CarBooking;
-import com.amcSoftware.car.dao.CarBookingDao;
+import com.amcSoftware.carBooking.CarBooking;
+import com.amcSoftware.carBooking.CarBookingDao;
 import com.amcSoftware.car.dao.CarDao;
 import com.amcSoftware.user.services.LocateUser;
 import com.amcSoftware.user.User;
@@ -28,7 +28,7 @@ public class CarService {
             CarBookingDao.getCarBookings().add(carBooking);
             System.out.println("🎉 Successfully booked car with reg number " + car.getRegNumber() + " for user " +
                     car + "\nBooking ref: " + bookingRef);
-            CarDao.getCars().remove(carBooking.getCar());
+            CarDao.getCars().remove(car);
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -50,7 +50,6 @@ public class CarService {
     public void getAvailableCars() {
         try {
             int availableCars = 0;
-
             for(int i = 0; i < CarDao.getCars().size(); i++) {
                 System.out.println(CarDao.getCars().get(i));
                 availableCars++;
@@ -62,6 +61,7 @@ public class CarService {
             System.out.println( e.getMessage());
         }
     }
+
 
     public void getAvailableElectricCars() {
         try {

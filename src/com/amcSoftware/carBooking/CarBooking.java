@@ -1,5 +1,6 @@
-package com.amcSoftware.car;
+package com.amcSoftware.carBooking;
 
+import com.amcSoftware.car.Car;
 import com.amcSoftware.user.User;
 
 import java.time.LocalDateTime;
